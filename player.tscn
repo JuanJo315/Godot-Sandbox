@@ -1,0 +1,161 @@
+[gd_scene load_steps=17 format=3 uid="uid://dmkg101uk6eo2"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_bxioy"]
+[ext_resource type="Texture2D" uid="uid://b63ggu1farrsr" path="res://assets/Characters 3/Small-8-Direction-Characters_by_AxulArt/Small-8-Direction-Characters_by_AxulArt.png" id="1_gqaiv"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mpn0x"]
+radius = 7.0
+height = 18.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hipde"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(64, 48, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4t551"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(96, 48, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnnig"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(32, 48, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g0vfs"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(0, 48, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qpgq"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(64, 24, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_doohh"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(64, 72, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nirrv"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(96, 24, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fa2tk"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(96, 72, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l6ssa"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(32, 24, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1spm"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(32, 72, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ljr16"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(0, 24, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4enod"]
+atlas = ExtResource("1_gqaiv")
+region = Rect2(0, 72, 16, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o117e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hipde")
+}],
+"loop": true,
+"name": &"rest down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4t551")
+}],
+"loop": true,
+"name": &"rest left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tnnig")
+}],
+"loop": true,
+"name": &"rest right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g0vfs")
+}],
+"loop": true,
+"name": &"rest up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qpgq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_doohh")
+}],
+"loop": true,
+"name": &"walk down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nirrv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fa2tk")
+}],
+"loop": true,
+"name": &"walk left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l6ssa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1spm")
+}],
+"loop": true,
+"name": &"walk right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ljr16")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4enod")
+}],
+"loop": true,
+"name": &"walk up",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_bxioy")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 1.3)
+shape = SubResource("CapsuleShape2D_mpn0x")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_o117e")
+animation = &"rest down"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 5.0
+target_desired_distance = 5.0
+path_postprocessing = 1
+avoidance_enabled = true
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(1, 0, 0, 1)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
